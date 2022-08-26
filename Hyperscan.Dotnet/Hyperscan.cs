@@ -9,13 +9,13 @@
         internal static extern IntPtr CreateHyperscanEngine();
 
         [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "compile_block_db")]
-        internal static extern int CompileBlockDatabase(IntPtr _hyperscanEngine, string patternFile);
+        internal static extern void CompileBlockDatabase(IntPtr _hyperscanEngine, string patternFile);
 
         [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "scan_single")]
         internal static extern int ScanSingle(IntPtr _hyperscanEngine, string data);
 
         [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "clean")]
-        internal static extern int Clean(IntPtr _hyperscanEngine);
+        internal static extern void Clean(IntPtr _hyperscanEngine);
     }
 
     public sealed class Hyperscan : IDisposable
