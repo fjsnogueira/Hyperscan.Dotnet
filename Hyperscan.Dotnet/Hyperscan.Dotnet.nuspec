@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Hyperscan.Dotnet</id>
+    <version>1.0.1</version>
+    <authors>Orlyon</authors>
+    <license type="expression">MIT</license>
+    <description>Dotnet experimental version (very limited) for Intel's Hyperscan, the open source, high-performance multiple regex matching library. Not fully supported.</description>
+    <releaseNotes>Support for .NET Standard and .NET Framework</releaseNotes>
+    <tags>Regex Hyperscan</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+      <group targetFramework=".NETFramework4.6.1" />
+    </dependencies>
+    <contentFiles>
+      <files include="..\Build\x64\Release\Hyperscan.Dotnet.Native.dll" buildAction="Content" copyToOutput="true" />
+    </contentFiles>
+  </metadata>
+
+  <files>
+    <file src="**" exclude="**\obj\**;**\bin\**;**\Properties\**;*.cs;*.csproj" />
+    <file src="..\Build\x64\Release\Hyperscan.Dotnet.dll" target="lib\net461"/>
+    <file src="..\Build\x64\Release\Hyperscan.Dotnet.dll" target="lib\netstandard2.0" />
+    <file src="..\Build\x64\Release\Hyperscan.Dotnet.Native.dll" target="runtimes/win-x64/native/Hyperscan.Dotnet.Native.dll" />
+    <file src="..\Build\x64\Release\Hyperscan.Dotnet.Native.exp" target="runtimes/win-x64/native/Hyperscan.Dotnet.Native.exp" />
+    <file src="..\Build\x64\Release\Hyperscan.Dotnet.Native.lib" target="runtimes/win-x64/native/Hyperscan.Dotnet.Native.lib" />
+  </files>
+
+</package>

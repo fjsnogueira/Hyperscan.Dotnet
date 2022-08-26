@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- This project will output netstandard2.0 and net461 assemblies -->
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <nuspecfile>Hyperscan.Dotnet.nuspec</nuspecfile>
+    <Description>
+      Dotnet experimental version (very limited) for Intel's Hyperscan, the open source, high-performance multiple regex matching library. Not fully supported.
+    </Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Version>1.0.1</Version>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutputPath>$(SolutionDir)Build\$(Platform)\$(Configuration)</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>$(SolutionDir)Build\$(Platform)\$(Configuration)</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(SolutionDir)Build\$(Platform)\$(Configuration)\Hyperscan.Dotnet.Native.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>build\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>

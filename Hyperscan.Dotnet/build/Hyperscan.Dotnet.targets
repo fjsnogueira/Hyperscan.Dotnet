@@ -1,0 +1,14 @@
+﻿<Project>
+
+  <PropertyGroup>
+	  <Frameworks>|net461|net462|net47|net471|net472|net48|</Frameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\Hyperscan.Dotnet.Native.dll">
+      <Link>Hyperscan.Dotnet.Native.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
