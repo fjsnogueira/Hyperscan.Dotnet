@@ -5,37 +5,43 @@
 
     internal static partial class NativeMethods
     {
+        [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "create_hyperscan_engine")]
+        internal static extern IntPtr CreateHyperscanEngine();
+
         [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "compile_block_db")]
-        internal static extern int CompileBlockDatabase(string path);
+        internal static extern int CompileBlockDatabase(IntPtr _hyperscanEngine, string path);
 
         [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "scan_single")]
-        internal static extern int ScanSingle(string dataInput);
+        internal static extern int ScanSingle(IntPtr _hyperscanEngine, string dataInput);
 
         [DllImport("Hyperscan.Dotnet.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "clean")]
-        internal static extern int Clean();
+        internal static extern int Clean(IntPtr _hyperscanEngine);
     }
 
     public sealed class Hyperscan : IDisposable
     {
         private bool disposedValue;
 
+        private readonly IntPtr _hyperscanEngine;
+
         public Hyperscan()
         {
+            _hyperscanEngine = NativeMethods.CreateHyperscanEngine();
         }
 
         public void CompileBlockDatabase(string patternFile)
         {
-            NativeMethods.CompileBlockDatabase(patternFile);
+            NativeMethods.CompileBlockDatabase(_hyperscanEngine, patternFile);
         }
 
         public int ScanSingle(string dataInput)
         {
-            return NativeMethods.ScanSingle(dataInput);
+            return NativeMethods.ScanSingle(_hyperscanEngine, dataInput);
         }
 
         public void Clean()
         {
-            NativeMethods.Clean();
+            NativeMethods.Clean(_hyperscanEngine);
         }
 
         private void Dispose(bool disposing)
@@ -48,7 +54,7 @@
                 }
 
                 // Free unmanaged resources (unmanaged objects) and override finalizer
-                NativeMethods.Clean();
+                NativeMethods.Clean(_hyperscanEngine);
                 disposedValue = true;
             }
         }

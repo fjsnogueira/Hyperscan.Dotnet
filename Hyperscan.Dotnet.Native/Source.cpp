@@ -35,10 +35,6 @@
 
 #include <hs/hs.h>
 
-extern "C" __declspec(dllexport) void compile_block_db(const char* pattern_file);
-extern "C" __declspec(dllexport) int scan_single(const char* data);
-extern "C" __declspec(dllexport) void clean();
-
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -56,7 +52,7 @@ int onMatch(unsigned int id, unsigned long long from, unsigned long long to,
     return 0;
 }
 
-// Class wrapping all state associated with the benchmark
+// Class wrapping all state associated with the hyperscan engine
 class HyperscanEngine {
 private:
     // Hyperscan compiled database
@@ -66,6 +62,8 @@ private:
     hs_scratch_t* scratch;
 
 public:
+    HyperscanEngine() : db(nullptr), scratch(nullptr) {}
+
     HyperscanEngine(hs_database_t* database)
         : db(database), scratch(nullptr) {
         // Allocate enough scratch space to handle block
@@ -84,6 +82,17 @@ public:
         hs_free_database(db);
     }
 
+    void set_database(hs_database_t* database) {
+        db = database;
+        // Allocate enough scratch space to handle block
+        // mode, so we only need the one scratch region.
+        hs_error_t err = hs_alloc_scratch(db, &scratch);
+        if (err != HS_SUCCESS) {
+            cerr << "ERROR: could not allocate scratch space. Exiting." << endl;
+            exit(-1);
+        }
+    }
+
     hs_database_t* get_database() {
         return db;
     }
@@ -92,6 +101,11 @@ public:
         return scratch;
     }
 };
+
+extern "C" __declspec(dllexport) HyperscanEngine * create_hyperscan_engine();
+extern "C" __declspec(dllexport) void compile_block_db(HyperscanEngine * engine, const char* pattern_file);
+extern "C" __declspec(dllexport) int scan_single(HyperscanEngine * engine, const char* data);
+extern "C" __declspec(dllexport) void clean(HyperscanEngine * engine);
 
 // helper function - see end of file
 static void parseFile(const char* filename, vector<string>& patterns,
@@ -127,9 +141,11 @@ static hs_database_t* buildDatabase(const vector<const char*>& expressions,
     return db;
 }
 
-HyperscanEngine* engine;
+HyperscanEngine* create_hyperscan_engine() {
+    return new HyperscanEngine();
+}
 
-void compile_block_db(const char* pattern_file) {
+void compile_block_db(HyperscanEngine* engine, const char* pattern_file) {
     // hs_compile_multi requires three parallel arrays containing the patterns,
     // flags and ids that we want to work with. To achieve this we use
     // vectors and new entries onto each for each valid line of input from
@@ -151,10 +167,11 @@ void compile_block_db(const char* pattern_file) {
 
     hs_database_t* db = buildDatabase(cstrPatterns, flags, ids, HS_MODE_BLOCK);
 
-    engine = new HyperscanEngine(db);
+    // set database and allocate scratch space
+    engine->set_database(db);
 }
 
-int scan_single(const char* data) {
+int scan_single(HyperscanEngine* engine, const char* data) {
 
     if (data == nullptr || engine == nullptr || engine->get_database() == nullptr) {
         cerr << "ERROR: No input file or no Hyperscan engine has been compiled." << endl;
@@ -174,7 +191,7 @@ int scan_single(const char* data) {
     return matchId;
 }
 
-void clean() {
+void clean(HyperscanEngine* engine) {
     delete engine;
 }
 
