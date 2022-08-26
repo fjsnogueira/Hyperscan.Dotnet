@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Hyperscan.Dotnet</id>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <authors>Orlyon</authors>
     <license type="expression">MIT</license>
     <description>Dotnet experimental version (very limited) for Intel's Hyperscan, the open source, high-performance multiple regex matching library. Not fully supported.</description>
