@@ -26,3 +26,18 @@ int matchedId = hyperscanEngine.ScanSingle("abc");
 // dispose unmanaged resources
 hyperscanEngine.Dispose();
 ```
+
+## Pattern File Format
+Hyperscan.Dotnet reads and parses the regular expression pattern file with following format.
+
+`<id>:/<regex>/<flags>`
+
+1. `id`: the integer rule id
+2. `regex`: the regex pattern
+3. `flags`: flags which modify the behaviour of the expression. Multiple flags may be used (`i` caseless, `H` single match)
+
+ex:
+```
+1:/[0-9]+/iH
+2:/[a-z]+/iH
+```
