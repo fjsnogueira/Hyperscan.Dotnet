@@ -18,6 +18,9 @@
         internal static extern void Clean(IntPtr _hyperscanEngine);
     }
 
+    /// <summary>
+    /// Hyperscan wrapper class of the C library API.
+    /// </summary>
     public sealed class Hyperscan : IDisposable
     {
         private bool disposedValue;
@@ -67,12 +70,14 @@
         }
 
         // Override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        /// <inheritdoc/>
         ~Hyperscan()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

@@ -7,12 +7,15 @@
     <Description>
       Dotnet experimental version (very limited) for Intel's Hyperscan, the open source, high-performance multiple regex matching library. Not fully supported.
     </Description>
+    <RepositoryUrl>https://github.com/joserenev/Hyperscan.Dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>1.0.3</Version>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Version>1.0.4</Version>
+    <Platforms>AnyCPU;x64</Platforms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
