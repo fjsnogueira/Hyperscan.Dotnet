@@ -28,7 +28,7 @@ hyperscanEngine.Dispose();
 ```
 
 ## Pattern File Format
-Hyperscan.Dotnet reads and parses the regular expression pattern file with following format.
+Hyperscan.Dotnet expects to read and parse the regular expression pattern file with following format.
 
 `<id>:/<regex>/<flags>`
 
