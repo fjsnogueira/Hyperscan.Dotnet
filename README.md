@@ -39,7 +39,7 @@ Hyperscan.Dotnet expects to read and parse the regular expression pattern file w
 `<id>:/<regex>/<flags>`
 
 1. `id`: the integer rule id
-2. `regex`: the regex pattern
+2. `regex`: the regex pattern (PCRE)
 3. `flags`: flags which modify the behaviour of the expression. Multiple flags may be used (`i` caseless, `H` single match)
 
 ex:
